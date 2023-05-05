@@ -20,7 +20,7 @@ public class CompanyController {
     CompanyRepository companyRepository;
 
     @GetMapping("/company/{inn}")
-    public ResponseEntity<Company> getCompanyByInn(@PathVariable("inn") long inn) {
+    public ResponseEntity<Company> getCompanyByInn(@PathVariable("inn") String inn) {
         try {
             //check if employee exist in database
             Company company = getCompany(inn);
@@ -36,7 +36,7 @@ public class CompanyController {
         }
 
     }
-    private Company getCompany(long inn) {
+    private Company getCompany(String inn) {
         Optional<Company> companyObj = Optional.ofNullable(companyRepository.findByInn(inn));
 
         return companyObj.orElse(null);

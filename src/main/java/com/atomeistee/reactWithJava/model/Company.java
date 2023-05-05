@@ -19,7 +19,7 @@ public class Company {
 
     @Id
     @Column(name = "inn")
-    private Long inn;
+    private String inn;
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Contract> contracts;

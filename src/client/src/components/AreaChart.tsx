@@ -1,8 +1,7 @@
-import React from "react";
 import Chart from "react-google-charts";
 
 type AreaChartProps = {
-  options: any;
+  options: object;
   data: (string | number)[][];
 };
 

@@ -11,14 +11,15 @@ const defaultLayoutState: LayoutContextState = {
   isNotificationsOpen: true,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const setLayoutState = (state: LayoutContextState) => {};
+// eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+const setLayoutState = (_state: LayoutContextState) => {};
 
 const LayoutContext = React.createContext({
   layout: defaultLayoutState,
   setLayout: setLayoutState,
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default function useLayoutContext() {
   return useContext(LayoutContext);
 }

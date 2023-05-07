@@ -27,12 +27,12 @@ function Menu() {
       header: "Тех-поддержка",
       submenu: [
         {
-          href: "/",
+          href: "/contacts",
           icon: <ChartBarIcon />,
           title: "Контакты",
         },
         {
-          href: "/ranks",
+          href: "/about",
           icon: <ChartBarSquareIcon />,
           title: "О нас",
         },

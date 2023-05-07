@@ -2,11 +2,7 @@ import Button from "@/components/Button";
 import CollapsibleTable from "@/components/CollapsibleTable";
 import CrossIcon from "@/assets/images/icons/cross.svg";
 import FilterIcon from "@/assets/images/icons/filter.svg";
-import Tags from "@/components/Tags";
-import Chart from "react-google-charts";
-import AreaChart from "@/components/AreaChart";
 import suppliers from "@/suppliersMock.json";
-import customers from "@/customersMock.json";
 import companies from "@/companiesMock.json";
 import { ChangeEvent, useState } from "react";
 import useSearch from "@/contexts/useSearch";
@@ -20,7 +16,8 @@ export default function Index() {
   const [isFilterOpen, setFilterOpen] = useState(false);
   // const [companyType, setCompanyType] = useState("Поставщики");
   const [typeActivitySearch, setTypeActivitySearch] = useState("");
-  const [currentCompanies, setCurrentCompanies] = useState(companies);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentCompanies, _setCurrentCompanies] = useState(companies);
   const [filteredStatus, setFilteredStatus] = useState(-1);
   const [ratingSort, setRatingSort] = useState("DESC");
 
@@ -146,7 +143,7 @@ export default function Index() {
                       name="ratingSort"
                       value="DESC"
                       checked={ratingSort === "DESC"}
-                      onChange={(e) => setRatingSort("DESC")}
+                      onChange={() => setRatingSort("DESC")}
                     />
                     По убыванию
                   </label>
@@ -156,7 +153,7 @@ export default function Index() {
                       name="ratingSort"
                       value="ASC"
                       checked={ratingSort === "ASC"}
-                      onChange={(e) => setRatingSort("ASC")}
+                      onChange={() => setRatingSort("ASC")}
                     />
                     По возрастанию
                   </label>

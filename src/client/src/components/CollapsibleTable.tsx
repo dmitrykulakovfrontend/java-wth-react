@@ -1,7 +1,5 @@
-import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import {
   TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -10,7 +8,6 @@ import {
   IconButton,
   Collapse,
   TablePagination,
-  TableFooter,
 } from "@mui/material";
 import React, { useState } from "react";
 import InfoIcon from "@/assets/images/icons/info.svg";
@@ -56,7 +53,7 @@ function CollapsibleTable({
 }: Props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -137,7 +134,7 @@ function Row({ row, innerContent }: RowProps) {
     "reit_classif",
   ];
   const values = Object.entries(row)
-    .filter(([key, value]) => allowedKeys.includes(key))
+    .filter(([key]) => allowedKeys.includes(key))
     .map((value) => value[1]);
   return (
     <>

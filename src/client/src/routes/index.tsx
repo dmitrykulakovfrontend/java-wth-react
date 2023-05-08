@@ -5,7 +5,13 @@ import FilterIcon from "@/assets/images/icons/filter.svg";
 import suppliers from "@/suppliersMock.json";
 import companies from "@/companiesMock.json";
 import { ChangeEvent, useState } from "react";
-import useSearch from "@/contexts/useSearch";
+
+export type Filter = {
+  sortType: string;
+  filteredStatus: number;
+  search: string;
+  isOpen: boolean;
+};
 export default function Index() {
   const tableHeaders = [
     "Наименование продукции",
@@ -13,173 +19,159 @@ export default function Index() {
     "Рейтинг",
     "Статус",
   ];
-  const [isFilterOpen, setFilterOpen] = useState(false);
-  // const [companyType, setCompanyType] = useState("Поставщики");
-  const [typeActivitySearch, setTypeActivitySearch] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentCompanies, _setCurrentCompanies] = useState(companies);
-  const [filteredStatus, setFilteredStatus] = useState(-1);
-  const [ratingSort, setRatingSort] = useState("DESC");
+  const [filter, setFilter] = useState<Filter>({
+    sortType: "DESC",
+    filteredStatus: -1,
+    search: "",
+    isOpen: false,
+  });
 
-  const { search } = useSearch();
+  const sortedCompanies = currentCompanies.sort((a, b) =>
+    filter.sortType === "DESC" ? b.reit - a.reit : a.reit - b.reit
+  );
 
-  function handleSearch(e: ChangeEvent<HTMLInputElement>) {
-    setTypeActivitySearch(e.currentTarget.value);
-  }
-  // function handleFilterSwitch(e: ChangeEvent<HTMLInputElement>) {
-  //   setCompanyType(e.currentTarget.value);
-  //   let newCompanies =
-  //     e.currentTarget.value === "Поставщики"
-  //       ? suppliers
-  //       : e.currentTarget.value === "Заказчики"
-  //       ? customers
-  //       : customersAndSuppliers;
-  //   // @ts-ignore
-  //   setCurrentCompanies(newCompanies);
-  // }
-  function handleFilterSwitch(e: ChangeEvent<HTMLInputElement>) {
-    setFilteredStatus(+e.currentTarget.value);
-  }
   return (
     <>
-      <main className="w-full p-4 mt-8 text-3xl ">
+      <main className="w-full p-4 mt-8 text-3xl">
         <h2 className="mb-4">Общий рейтинг</h2>
-        <div className="relative flex items-center w-full bg-white border rounded-t-lg ">
-          <div
-            className="absolute left-6 hover:cursor-pointer "
-            onClick={() => setTypeActivitySearch("")}
-          >
-            <CrossIcon />
-          </div>
-          <input
-            type="text"
-            placeholder="Область деятельности"
-            value={typeActivitySearch}
-            onChange={handleSearch}
-            className="flex-1 w-full p-2 pl-12 rounded-t-lg"
-          />
-          <div className="absolute right-40 hover:cursor-pointer ">
-            <div onClick={() => setFilterOpen(!isFilterOpen)}>
-              <FilterIcon />
-            </div>
-
-            {isFilterOpen ? (
-              <div className="absolute z-10 p-4 bg-white border rounded-lg -right-full w-max top-full">
-                <h3 className="mb-4 text-xl font-bold">Тип компаний:</h3>
-                <div className="flex gap-4">
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="companyType"
-                      value="Поставщики"
-                      // checked={companyType === "Поставщики"}
-                      // onChange={handleFilterSwitch}
-                    />
-                    Поставщики
-                  </label>
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="companyType"
-                      value="Заказчики"
-                      // checked={companyType === "Заказчики"}
-                      // onChange={handleFilterSwitch}
-                    />
-                    Заказчики
-                  </label>
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="companyType"
-                      value="Все"
-                      // checked={companyType === "Все"}
-                      // onChange={handleFilterSwitch}
-                    />
-                    Все
-                  </label>
-                </div>
-                <h3 className="mt-4 mb-4 text-xl font-bold">
-                  Статус компаний:
-                </h3>
-                <div className="flex gap-4">
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="filteredStatus"
-                      value={-1}
-                      checked={filteredStatus === -1}
-                      onChange={handleFilterSwitch}
-                    />
-                    Любой
-                  </label>
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="filteredStatus"
-                      value={1}
-                      checked={filteredStatus === 1}
-                      onChange={handleFilterSwitch}
-                    />
-                    Только надёжные
-                  </label>
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="filteredStatus"
-                      value={0}
-                      checked={filteredStatus === 0}
-                      onChange={handleFilterSwitch}
-                    />
-                    Только ненадёжные
-                  </label>
-                </div>
-                <h3 className="mt-4 mb-4 text-xl font-bold">
-                  Сортировка рейтинга:
-                </h3>
-                <div className="flex gap-4">
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="ratingSort"
-                      value="DESC"
-                      checked={ratingSort === "DESC"}
-                      onChange={() => setRatingSort("DESC")}
-                    />
-                    По убыванию
-                  </label>
-                  <label className="flex gap-2 text-base hover:cursor-pointer">
-                    <input
-                      type="radio"
-                      name="ratingSort"
-                      value="ASC"
-                      checked={ratingSort === "ASC"}
-                      onChange={() => setRatingSort("ASC")}
-                    />
-                    По возрастанию
-                  </label>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <Button type={"light"} className="absolute px-12 py-2 right-2">
-            Найти
-          </Button>
-        </div>
+        <TableControls filter={filter} setFilter={setFilter} />
         <CollapsibleTable
           headers={tableHeaders}
-          rows={currentCompanies.sort((a, b) =>
-            ratingSort === "DESC" ? b.reit - a.reit : a.reit - b.reit
-          )}
+          rows={sortedCompanies}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           innerContent={suppliers}
-          typeActivitySearch={typeActivitySearch}
-          search={search}
-          filteredStatus={filteredStatus}
+          typeActivitySearch={filter.search}
+          filteredStatus={filter.filteredStatus}
         />
       </main>
     </>
   );
 }
+
+export type TableControlsProps = {
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
+};
+
+function TableControls({ filter, setFilter }: TableControlsProps) {
+  function clearSearch() {
+    setFilter({ ...filter, search: "" });
+  }
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    const key = e.target.name;
+    const isNumber = /^-?[0-9]+$/.test(value);
+    setFilter({ ...filter, [key]: isNumber ? +value : value });
+  }
+
+  return (
+    <div className="relative flex items-center w-full bg-white border rounded-t-lg ">
+      <div
+        className="absolute left-6 hover:cursor-pointer "
+        onClick={clearSearch}
+      >
+        <CrossIcon />
+      </div>
+      <input
+        type="text"
+        name="search"
+        placeholder="Область деятельности"
+        value={filter.search}
+        onChange={handleChange}
+        className="flex-1 w-full p-2 pl-12 bg-transparent rounded-t-lg"
+      />
+      <FilterMenu
+        filter={filter}
+        setFilter={setFilter}
+        handleChange={handleChange}
+      />
+      <Button type={"light"} className="absolute px-12 py-2 right-2">
+        Найти
+      </Button>
+    </div>
+  );
+}
+
+export type FilterMenuProps = {
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+const FilterMenu = ({ filter, handleChange, setFilter }: FilterMenuProps) => {
+  function switchFilterMenu() {
+    setFilter({ ...filter, isOpen: !filter.isOpen });
+  }
+  return (
+    <div className="absolute right-40 hover:cursor-pointer ">
+      <div onClick={switchFilterMenu}>
+        <FilterIcon />
+      </div>
+
+      {filter.isOpen && (
+        <div className="absolute z-10 p-4 bg-white border rounded-lg -right-full w-max top-full">
+          <h3 className="mt-4 mb-4 text-xl font-bold">Статус компаний:</h3>
+          <div className="flex gap-4">
+            <label className="flex gap-2 text-base hover:cursor-pointer">
+              <input
+                type="radio"
+                name="filteredStatus"
+                value={-1}
+                checked={filter.filteredStatus === -1}
+                onChange={handleChange}
+              />
+              Любой
+            </label>
+            <label className="flex gap-2 text-base hover:cursor-pointer">
+              <input
+                type="radio"
+                name="filteredStatus"
+                value={1}
+                checked={filter.filteredStatus === 1}
+                onChange={handleChange}
+              />
+              Только надёжные
+            </label>
+            <label className="flex gap-2 text-base hover:cursor-pointer">
+              <input
+                type="radio"
+                name="filteredStatus"
+                value={0}
+                checked={filter.filteredStatus === 0}
+                onChange={handleChange}
+              />
+              Только ненадёжные
+            </label>
+          </div>
+          <h3 className="mt-4 mb-4 text-xl font-bold">Сортировка рейтинга:</h3>
+          <div className="flex gap-4">
+            <label className="flex gap-2 text-base hover:cursor-pointer">
+              <input
+                type="radio"
+                name="sortType"
+                value="DESC"
+                checked={filter.sortType === "DESC"}
+                onChange={handleChange}
+              />
+              По убыванию
+            </label>
+            <label className="flex gap-2 text-base hover:cursor-pointer">
+              <input
+                type="radio"
+                name="sortType"
+                value="ASC"
+                checked={filter.sortType === "ASC"}
+                onChange={handleChange}
+              />
+              По возрастанию
+            </label>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

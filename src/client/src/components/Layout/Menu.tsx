@@ -16,11 +16,6 @@ function Menu() {
           icon: <ChartBarIcon />,
           title: "Общий рейтинг",
         },
-        {
-          href: "/ranks",
-          icon: <ChartBarSquareIcon />,
-          title: "Рейтинг рынка",
-        },
       ],
     },
     {
@@ -61,8 +56,8 @@ function Menu() {
                       to={href}
                       className={({ isActive }) =>
                         isActive
-                          ? `${LinkClassName} `
-                          : `${LinkClassName} text-green-500`
+                          ? `${LinkClassName} text-green-500`
+                          : `${LinkClassName}`
                       }
                     >
                       {icon}

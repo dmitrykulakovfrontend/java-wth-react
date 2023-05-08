@@ -38,7 +38,6 @@ type Props = {
   headers: string[];
   rows: Company[];
   innerContent: CompanyInnerContent[];
-  search: string;
   typeActivitySearch: string;
   filteredStatus: number;
 };
@@ -46,7 +45,6 @@ type Props = {
 function CollapsibleTable({
   headers,
   rows,
-  search,
   typeActivitySearch,
   innerContent,
   filteredStatus,
@@ -64,7 +62,6 @@ function CollapsibleTable({
       formatted(`${company.tru_okpd2_name}`).includes(
         formatted(typeActivitySearch)
       ) &&
-      formatted(`${company.supplier_inn}`).includes(formatted(search)) &&
       (filteredStatus === -1 ? true : filteredStatus === company.reit_classif)
   );
 

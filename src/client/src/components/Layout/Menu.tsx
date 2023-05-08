@@ -49,7 +49,7 @@ function Menu() {
               <span className="tracking-[1px] uppercase text-gray-400 text-xs">
                 {header}
               </span>
-              <ul className="flex flex-col gap-4 mt-4">
+              <ul className="flex flex-col gap-4 my-4">
                 {submenu.map(({ href, title, icon }, i) => (
                   <li key={i}>
                     <NavLink
@@ -65,7 +65,6 @@ function Menu() {
                     </NavLink>
                   </li>
                 ))}
-                <li></li>
               </ul>
             </li>
           ))}

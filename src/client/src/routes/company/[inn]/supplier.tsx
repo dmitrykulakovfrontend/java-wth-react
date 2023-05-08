@@ -4,7 +4,7 @@ function Supplier() {
   const params = useParams();
   return (
     <>
-      <h1 className="text-2xl font-bold">Supplier {params.inn}</h1>
+      <h1 className="text-2xl font-bold">Поставщик {params.inn}</h1>
     </>
   );
 }

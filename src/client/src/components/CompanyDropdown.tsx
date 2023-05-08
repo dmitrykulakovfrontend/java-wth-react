@@ -82,7 +82,6 @@ function CompanyDropdown({ company }: Props) {
           Подробнее
         </Button>
       </div>
-      <AreaChart data={data} options={options} />
     </div>
   );
 }

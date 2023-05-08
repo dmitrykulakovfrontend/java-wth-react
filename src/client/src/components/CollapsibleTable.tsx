@@ -57,13 +57,14 @@ function CollapsibleTable({
 
   const formatted = (s: string) => s.toLowerCase().trim();
 
-  const filteredRows = rows.filter(
-    (company) =>
-      formatted(`${company.tru_okpd2_name}`).includes(
-        formatted(typeActivitySearch)
-      ) &&
-      (filteredStatus === -1 ? true : filteredStatus === company.reit_classif)
-  );
+  const filteredRows = rows.filter((company) => {
+    const isSameActivity = formatted(company.tru_okpd2_name).includes(
+      formatted(typeActivitySearch)
+    );
+    const isSameStatus =
+      filteredStatus === -1 ? true : filteredStatus === company.reit_classif;
+    return isSameActivity && isSameStatus;
+  });
 
   const currentPageSlice = filteredRows.length < rowsPerPage ? 0 : page;
 
